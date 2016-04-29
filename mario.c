@@ -11,43 +11,31 @@ int main(void)
         num = GetInt();
     } 
     while(num < 0 || num >23);
-    int numHash = 2; 
+
+    int numHash = 2;
     
-    
-    for (int counter = 0; counter < num; counter++)
+
+   
+   for (int counter = 1; counter < num + 1; counter++)
     {
-        int numSpace = num - numHash;
          
-        printf("%d",numSpace);
-        
-        for (int count2 = 0; count2 < numSpace; count2++)
+       
+        int numSpace = num - counter; 
+        int counter2 = 0; 
+                
+        while(numSpace > 0)
         {
-            int i = 0; 
+            printf(" "); 
+            numSpace = numSpace - 1;
+        }
             
-            while(i <= numSpace){
-                //printf(" ");
-                printf("%d",i);
-                i++;
-            }
-            printf("%d",count2);
-            count2++;
-            
-            for (int count3 = 0; count3 <numHash; count3++)
-            {
-                int k = 0; 
-                
-                while(k<numHash){
-                    //printf("#");
-                    printf("%d",k);
-                    k++;
-                }
-                
-                printf("%d",count3);
-                count3++;
-            }
-            printf("\n");
+        while(counter2 < numHash){
+            printf("#");
+            counter2++;
         }
 
-        numHash++;
+        numHash++;       
+        
+        printf("\n");        
     }
-}
+}   
