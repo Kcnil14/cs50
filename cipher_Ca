@@ -51,17 +51,22 @@ int cypher(char myChar, int keyUsed){
 
     if(isupper(myChar)){
         
-        int shiftLetter = shiftMod + SHIFTVALUP;
-        return shiftLetter; 
+        if (shiftMod <18){
+            int shiftLetter = shiftMod + SHIFTVALLOW;
+            return shiftLetter; 
+        }
+        else {
+            int shiftLetter = shiftMod + SHIFTVALUP;
+            return shiftLetter;
+        }
         
     }
     else
     {
-        if (sumKey >= 104 ){
+        if (shiftMod <18){
             
             int shiftLetter = shiftMod + SHIFTVALLOW2; 
             return shiftLetter; 
-            
         }
         else
         {
