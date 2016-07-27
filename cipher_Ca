@@ -1,0 +1,73 @@
+#import <stdio.h>
+#import <string.h>
+#import <cs50.h>
+#import <ctype.h>
+
+int lowShift(char,int);
+int upShift(char,int);
+
+#define SHIFTVALUP 52
+#define SHIFTVALLOW 78
+#define ALPHASIZE 26
+
+int main(int argc, string argv[]){
+    
+    
+    if (argc!= 2) {
+        printf("This program needs only one key.");
+        return 1; 
+    }
+    
+    int key = atoi(argv[1]); 
+    
+    printf("Enter your phrase"); 
+    string myString = GetString(); 
+    
+    int returnWord[strlen(myString)];
+    
+    for (int i = 0, n = strlen(myString); i < n; i++){
+        
+        char myLetter = myString[i]; 
+        
+        if(isalpha(myLetter)){
+            
+            if(isupper(myLetter))
+            {
+                int upperShift = upShift(myLetter, key);
+                
+                returnWord[i] = upperShift; 
+            }
+            else
+            {
+                int lowerShift = lowShift(myLetter, key); 
+                
+                returnWord[i] = lowerShift; 
+            }
+            
+        } 
+        else{
+            
+            returnWord[i] =  myString[i];
+        }
+        
+        printf("%c", returnWord[i]);
+    }
+}
+
+int lowShift(char lowercase, int keyUsed)
+{
+    int intLetter = (int) lowercase; 
+    int shiftMod = intLetter + keyUsed % ALPHASIZE; 
+    int shiftLetter = shiftMod + SHIFTVALLOW;
+    
+    return shiftLetter; 
+}
+
+int upShift(char uppercase, int keyUsed){
+    
+    int intLetter = (int) uppercase; 
+    int shiftMod = (intLetter + keyUsed) % ALPHASIZE; 
+    int shiftLetter = shiftMod + SHIFTVALUP; 
+    
+    return shiftLetter; 
+}
