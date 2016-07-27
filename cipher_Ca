@@ -3,11 +3,11 @@
 #import <cs50.h>
 #import <ctype.h>
 
-int lowShift(char,int);
-int upShift(char,int);
+int cypher(char, int); 
 
 #define SHIFTVALUP 52
 #define SHIFTVALLOW 78
+#define SHIFTVALLOW2 104
 #define ALPHASIZE 26
 
 int main(int argc, string argv[]){
@@ -20,7 +20,7 @@ int main(int argc, string argv[]){
     
     int key = atoi(argv[1]); 
     
-    printf("Enter your phrase"); 
+    printf("Enter your phrase\n"); 
     string myString = GetString(); 
     
     int returnWord[strlen(myString)];
@@ -31,18 +31,7 @@ int main(int argc, string argv[]){
         
         if(isalpha(myLetter)){
             
-            if(isupper(myLetter))
-            {
-                int upperShift = upShift(myLetter, key);
-                
-                returnWord[i] = upperShift; 
-            }
-            else
-            {
-                int lowerShift = lowShift(myLetter, key); 
-                
-                returnWord[i] = lowerShift; 
-            }
+            returnWord[i] = cypher(myLetter, key); 
             
         } 
         else{
@@ -54,20 +43,31 @@ int main(int argc, string argv[]){
     }
 }
 
-int lowShift(char lowercase, int keyUsed)
-{
-    int intLetter = (int) lowercase; 
-    int shiftMod = intLetter + keyUsed % ALPHASIZE; 
-    int shiftLetter = shiftMod + SHIFTVALLOW;
-    
-    return shiftLetter; 
-}
+int cypher(char myChar, int keyUsed){
 
-int upShift(char uppercase, int keyUsed){
-    
-    int intLetter = (int) uppercase; 
-    int shiftMod = (intLetter + keyUsed) % ALPHASIZE; 
-    int shiftLetter = shiftMod + SHIFTVALUP; 
-    
-    return shiftLetter; 
+    int intLetter = (int) myChar;
+    int sumKey = (intLetter + keyUsed);
+    int shiftMod = sumKey % ALPHASIZE; 
+
+    if(isupper(myChar)){
+        
+        int shiftLetter = shiftMod + SHIFTVALUP;
+        return shiftLetter; 
+        
+    }
+    else
+    {
+        if (sumKey >= 104 ){
+            
+            int shiftLetter = shiftMod + SHIFTVALLOW2; 
+            return shiftLetter; 
+            
+        }
+        else
+        {
+            int shiftLetter = shiftMod + SHIFTVALLOW;
+            return shiftLetter; 
+        }
+    }
 }
+    
