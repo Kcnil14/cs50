@@ -1,0 +1,118 @@
+#import <stdio.h>
+#import <string.h>
+#import <cs50.h>
+#import <ctype.h>
+
+#define ALPHASIZE 26;
+
+int cypher(char, int); 
+int shiftCypher(int, int);
+
+
+int main(int argc, string argv[]){
+    
+    if (argv[1] == NULL){
+        printf("You must have something entered here\n");
+        return 1; 
+    }
+    
+    //declare array to hold key
+    int strLeng = strlen(argv[1]); 
+    //int returnWord[strlen(argv[1])]; 
+    
+
+    //Checking to see if the number of arguments is two and that they are non-numeric.
+    
+    if (argc!= 2) 
+    {
+        printf("This program needs only one argument.\n");
+        return 1; 
+    } 
+    
+    
+    for (int i = 0; i < strLeng; i++)
+    {
+        if (isalpha(argv[1][i]) == false){
+            
+            printf("This program's key must be alpha only.\n"); 
+            return 1; 
+        }
+        
+    }
+
+    
+    //shifting the key to reflect the range 0-26
+    
+    int key[strlen(argv[1])];
+    
+    for (int i = 0; i < strLeng; i++){
+        
+        char keyLetter = argv[1][i]; 
+        int intLetter = (int)keyLetter; 
+        
+        if isupper(keyLetter){
+            int keyShift = intLetter - 65;
+            key[i] = keyShift;
+        } 
+        else
+        {
+            int keyShift = intLetter - 97; 
+            key[i] = keyShift;
+        }
+    }
+
+    //Getting the string from the user to encode. 
+    
+    string userString = GetString();
+
+    int uLength = strlen(userString);
+    
+    int  encodStr[uLength];
+    
+    //WORKING ON THE SHIFT NEXT
+    
+    int counter = 0; 
+    
+    for (int i = 0; i < uLength; i++)
+    {
+        
+        char myLetter = userString[i];
+         
+
+        if(isalpha(myLetter)){
+            
+            counter = counter % strLeng; 
+            
+            if(isupper(myLetter)){
+                
+                int newIntLet = (int)myLetter; 
+                int adjLetter = newIntLet - 65;
+                int addKey = adjLetter + key[counter]; 
+                int modKey = addKey % 26; 
+                int finalResult = modKey + 65; 
+                
+                encodStr[i] = finalResult;
+            }
+            else 
+            {
+                int newIntLet = (int)myLetter; 
+                int adjLetter = newIntLet - 97;
+                int addKey = adjLetter + key[counter]; 
+                int modKey = addKey % 26; 
+                int finalResult = modKey + 97; 
+                
+                encodStr[i] = finalResult; 
+            }
+            counter ++;
+        }
+        else
+        {
+           encodStr[i] = myLetter; 
+        }
+        printf("%c", encodStr[i]); 
+    }
+    
+    printf("\n");
+    
+}
+
