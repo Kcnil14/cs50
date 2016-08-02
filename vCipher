@@ -5,15 +5,21 @@
 
 #define ALPHASIZE 26;
 
-int makeShift (char, int); 
+int cypher(char, int); 
 int shiftCypher(int, int);
 
 
 int main(int argc, string argv[]){
     
-    //declare array to hold key 
+    if (argv[1] == NULL){
+        printf("You must have something entered here\n");
+        return 1; 
+    }
+    
+    //declare array to hold key
     int strLeng = strlen(argv[1]); 
-    int  encodStr[strlen(argv[1])]; 
+    //int returnWord[strlen(argv[1])]; 
+    
 
     //Checking to see if the number of arguments is two and that they are non-numeric.
     
@@ -22,6 +28,7 @@ int main(int argc, string argv[]){
         printf("This program needs only one argument.\n");
         return 1; 
     } 
+    
     
     for (int i = 0; i < strLeng; i++)
     {
@@ -32,6 +39,7 @@ int main(int argc, string argv[]){
         }
         
     }
+
     
     //shifting the key to reflect the range 0-26
     
@@ -51,85 +59,60 @@ int main(int argc, string argv[]){
             int keyShift = intLetter - 97; 
             key[i] = keyShift;
         }
-        printf("%i", key[i]);
-        
     }
 
     //Getting the string from the user to encode. 
     
     string userString = GetString();
 
-    int keyLength = sizeof(key);
     int uLength = strlen(userString);
     
+    int  encodStr[uLength];
+    
     //WORKING ON THE SHIFT NEXT
+    
+    int counter = 0; 
     
     for (int i = 0; i < uLength; i++)
     {
         
         char myLetter = userString[i];
-        
+         
+
         if(isalpha(myLetter)){
             
-            int intChar = (int)myLetter; 
+            counter = counter % strLeng; 
             
-            for (int j = 0; j < keyLength; j++){
-                 
-                if isupper(myLetter){
+            if(isupper(myLetter)){
                 
-                    int adjustChar = intChar - 65;
-                    int addKey = (adjustChar + key[j]) % 26;
-                    printf("%i This is the add key\n", addKey); 
-                    int encodedKey = addKey + 65; 
+                int newIntLet = (int)myLetter; 
+                int adjLetter = newIntLet - 65;
+                int addKey = adjLetter + key[counter]; 
+                int modKey = addKey % 26; 
+                int finalResult = modKey + 65; 
                 
-                    encodStr[i] = encodedKey; 
-                }
-                else
-                {
-                    int adjustChar = intChar - 97; 
-                    int addKey = (adjustChar + key[j]) % 26;
-                    printf("%i This is the add key\n", addKey); 
-                    int encodedKey = addKey + 97; 
-                
-                    encodStr[i] = encodedKey; 
-                }
+                encodStr[i] = finalResult;
             }
+            else 
+            {
+                int newIntLet = (int)myLetter; 
+                int adjLetter = newIntLet - 97;
+                int addKey = adjLetter + key[counter]; 
+                int modKey = addKey % 26; 
+                int finalResult = modKey + 97; 
+                
+                encodStr[i] = finalResult; 
+            }
+            counter ++;
         }
         else
         {
-            encodStr[i] = myLetter; 
+           encodStr[i] = myLetter; 
         }
-        
-        printf("%c", encodStr[i]);
-        
+        printf("%c", encodStr[i]); 
     }
+    
     printf("\n");
     
 }
 
-
-
-
-/*int makeShift (char oldChar, int jKey){
-
-    int intLetter = (int)oldChar;
-
-    if(isupper(oldChar)){
-        
-        int shiftBegin = intLetter - 65;
-        int sumKey = (shiftBegin + jKey) % 26; 
-        int shiftLetter = sumKey + 65; 
-        
-        return shiftLetter; 
-
-    }
-    else
-    {
-        int shiftBegin = intLetter - 97;
-        int sumKey = (shiftBegin + jKey) % 26; 
-        int shiftLetter = sumKey + 97; 
-        
-        return shiftLetter; 
-    }
-}
-*/
