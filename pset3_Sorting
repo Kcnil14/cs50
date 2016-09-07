@@ -1,0 +1,239 @@
+//game of fifteen 
+void init(void)
+{
+    int boardMax = d*d-1;
+    int counter = boardMax; 
+    
+    if (d % 2 == 0 )
+    {
+       for (int i = 0; i < d; i++) 
+       {
+           for (int j = 0; j < d; j++)
+           {
+               board[i][j] = counter; 
+               counter = counter - 1; 
+           }
+       }
+       
+       int switch1 = d-(d-2);
+       int switch2 = d-(d-1); 
+       
+       
+       
+       board[d-1][switch2] = 1;
+       board[d-1][switch1] = 2;
+       
+    }
+    else 
+    {
+        for (int i = 0; i < d; i++)
+        {
+            for (int j = 0; j < d; j++)
+            {
+                board[i][j] = counter; 
+                counter = counter - 1; 
+            }
+        }
+    }
+    
+}
+
+/**
+ * Prints the board in its current state.
+ */
+void draw(void)
+{
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
+        {
+            if (board[i][j] < 10)
+            {
+                if (board[i][j] != 0)
+                {
+                    printf("%2d ", board[i][j]);
+                }
+                else
+                {
+                    printf(" _");
+                }
+            }
+            else
+            {
+                printf("%i ", board[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+/**
+ * If tile borders empty space, moves tile and returns true, else
+ * returns false. 
+ */
+bool move(int tile)
+{
+    // TODO
+    int posit1 = 0; 
+    int posit2 = 0; 
+    int posit3 = 0; 
+    int posit4 = 0; 
+    int boardMax = (d*d)-1; 
+
+
+    
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
+        {
+            if (board[i][j] == tile)
+            {
+                posit1 = i; 
+                posit2 = j; 
+            }
+        }
+    }
+    
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
+        {
+            if (board[i][j] == 0)
+            {
+                posit3 = i; 
+                posit4 = j;
+
+            }
+        }
+    }
+
+
+    if (board[posit3 + 1][posit4] == tile && board[posit3 + 1][posit4] <= boardMax)
+    {
+        board[posit3][posit4] = tile; 
+        board[posit1][posit2] = 0; 
+        return true; 
+    }
+    else if (board[posit3 - 1][posit4] == tile && board[posit3 - 1][posit4] >= 0)
+    {
+        board[posit3][posit4] = tile; 
+        board[posit1][posit2] = 0; 
+        return true; 
+    }
+    else if (board[posit3][posit4 + 1] == tile && board[posit3][posit4 + 1] <= boardMax)
+    {
+        board[posit3][posit4] = tile; 
+        board[posit1][posit2] = 0; 
+        return true; 
+    }
+    else if (board[posit3][posit4 - 1] == tile && board[posit3][posit4 - 1] >= 0)
+    {
+        board[posit3][posit4] = tile; 
+        board[posit1][posit2] = 0; 
+        return true; 
+    }
+    /*else
+    {
+        return false; 
+    }*/
+
+    return false;
+}
+
+/**
+ * Returns true if game is won (i.e., board is in winning configuration), 
+ * else false.
+ */
+bool won(void)
+{
+    int maxValue = (d*d) - 1; 
+    int counter = 1; 
+    
+    for (int i = 0; i < maxValue; i++)
+    {
+        for (int j = 0; j < maxValue; j++)
+        {
+            if (board[i][j] == counter)
+            {
+                counter++;
+            }
+        }
+    }
+    
+    if (counter == maxValue + 1 && board[d-1][d-1] == 0)
+    {
+        return true; 
+    }
+    
+    return false;
+}
+
+//Sorting 
+/**
+ * find.c
+ *
+ * Computer Science 50
+ * Problem Set 3
+ *
+ * Prompts user for as many as MAX values until EOF is reached, 
+ * then proceeds to search that "haystack" of values for given needle.
+ *
+ * Usage: ./find needle
+ *
+ * where needle is the value to find in a haystack of values
+ */
+       
+#include <cs50.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "helpers.h"
+
+// maximum amount of hay
+const int MAX = 65536;
+
+int main(int argc, string argv[])
+{
+    // ensure proper usage
+    if (argc != 2)
+    {
+        printf("Usage: ./find needle\n");
+        return -1;
+    }
+
+    // remember needle
+    int needle = atoi(argv[1]);
+
+    // fill haystack
+    int size;
+    int haystack[MAX];
+    for (size = 0; size < MAX; size++)
+    {
+        // wait for hay until EOF
+        printf("\nhaystack[%i] = ", size);
+        int straw = GetInt();
+        if (straw == INT_MAX)
+        {
+            break;
+        }
+     
+        // add hay to stack
+        haystack[size] = straw;
+    }
+    printf("\n");
+
+    // sort the haystack
+    sort(haystack, size);
+
+    // try to find needle in haystack
+    if (search(needle, haystack, size))
+    {
+        printf("\nFound needle in haystack!\n\n");
+        return 0;
+    }
+    else
+    {
+        printf("\nDidn't find needle in haystack.\n\n");
+        return 1;
+    }
+}
